@@ -1,10 +1,18 @@
-import Upload from "./upload"
+import { getServerSession } from "next-auth"
+import { SignInForm } from "./_components/SignInForm"
+import { redirect } from "next/navigation"
 
-export default function Home() {
+export default async function Home() {
+
+  const session = await getServerSession()
+  if (session) {
+    redirect("/home")
+  }
+
   return (
-    <div className="home">
-      <h1>Upload file</h1>
-      <Upload />
+    <div className="signIn">
+      Sign In
+      <SignInForm />
     </div>
   )
 }
