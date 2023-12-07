@@ -12,11 +12,13 @@ export default function Upload() {
             setFile(e.target.files[0])
         }
     }
+
     const handleSubmit = async () => {
         if (file) {
             const data = new FormData()
             data.append("file", file)
-            axios.post("http://localhost:5000/react_uploads", data).then(()=>{console.log("ok")}).catch(err => alert(err));
+            console.log(data);            
+            axios.post("/api/upload", data).then(()=>{console.log("ok")}).catch(err => alert(err));
         }
     }
 
