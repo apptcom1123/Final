@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth"
 import { SignInForm } from "./_components/SignInForm"
 import { redirect } from "next/navigation"
+import './app.css'
 
 export default async function Home() {
 
@@ -10,9 +11,16 @@ export default async function Home() {
   }
 
   return (
-    <div className="signIn">
-      Sign In
-      <SignInForm />
-    </div>
+    <main>
+      <div className="Intro">
+        <div className="left">
+          <SignInForm />
+        </div> 
+        <div className="right">
+          <h1>Nice to meet you!</h1>
+          <p>Want an AI to cover your favorite song? Join us!</p>
+        </div>
+      </div>
+    </main>
   )
 }

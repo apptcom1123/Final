@@ -1,6 +1,7 @@
 'use client'
 
 import { signIn } from "next-auth/react"
+import { FaRegCircleUser } from "react-icons/fa6";
 
 export function SignInForm() {
 
@@ -11,9 +12,15 @@ export function SignInForm() {
     }
 
     return (
+        
         <div className="signIn">
+            <span id="icon">
+                <FaRegCircleUser />
+            </span>
+            Sign In
             <button onClick={handleClick}>Github</button>
         </div>
+        
     )
 
 }
