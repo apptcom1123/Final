@@ -1,6 +1,5 @@
 import { env } from "@/lib/env";
 import axios from "axios";
-import { log } from "console";
 import { getServerSession } from "next-auth";
 import type { NextRequest } from "next/server";
 import {NextResponse} from 'next/server'
