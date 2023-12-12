@@ -3,7 +3,7 @@ import { signOut, useSession } from "next-auth/react"
 import {FaRegCircleUser, FaRobot} from "react-icons/fa6"
 import { RxExit } from "react-icons/rx";
 import "./NavBar.css"
-import Link from "next/link";
+import NavLink from "./NavLink";
 
 export function NavBar() {
 
@@ -15,10 +15,10 @@ export function NavBar() {
                 <h1>AI Cover<span><FaRobot /></span></h1>
             </div>
             <div className="navlist">
-                <span><Link href={"/"}>Overview</Link></span>
-                <span><Link href={"/"}>Upload</Link></span>
-                <span><Link href={"/"}>History</Link></span>
-                <span><Link href={"/"}>Profile</Link></span>
+                <NavLink href={"/home"}>Home</NavLink>
+                <NavLink href={"/home/upload"}>Upload</NavLink>
+                <NavLink href={"/home/history"}>History</NavLink>
+                <NavLink href={"/home/profile"}>Profile</NavLink>
             </div>
             <div className="signOut">
                 <span><span><FaRegCircleUser /></span>{session.data?.user?.name}</span>
