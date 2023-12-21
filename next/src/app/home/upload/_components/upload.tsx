@@ -2,6 +2,7 @@
 
 import axios from "axios"
 import { useState } from "react"
+import {v4} from "uuid"
 
 export default function Upload() {
 
@@ -15,10 +16,12 @@ export default function Upload() {
 
     const handleSubmit = async () => {
         if (file) {
+            const docID = v4()
             const data = new FormData()
-            data.append("file", file)
+            const docName = file.name
+            data.append("file", file, docID)
             console.log(data);            
-            axios.post("/api/upload", data).then(()=>{console.log("ok")}).catch(err => alert(err));
+            axios.post(`/api/upload?docID=${docID}&docName=${docName}`, data).then(()=>{console.log("ok")}).catch(err => alert(err));
         }
     }
 
