@@ -4,7 +4,8 @@ import "./DocPage.css"
 import { Data } from "@/lib/type"
 import axios from "axios"
 import { useRouter } from "next/navigation"
-
+import { RiArrowGoBackFill } from "react-icons/ri";
+import Link from "next/link"
 
 type Props = {
     params: {
@@ -33,6 +34,19 @@ export default function DocPage(props: Props) {
         }).catch(err=>alert(err))
     }
 
+    const handleDownload = async () => {
+        if (!data) {return}
+        fetch(`/api/download?docID=${docID.current}&docName=${data.docName}`).then((res)=>res.blob()).then(blob=>{
+            const url = window.URL.createObjectURL(blob);
+            const fileLink = document.createElement("a");
+            fileLink.href = url;
+            fileLink.download = data.docName;
+            document.body.appendChild(fileLink); 
+            fileLink.click();
+            fileLink.remove();
+        }).catch(err=>alert(err))
+    }
+
     useEffect(()=>{
         fetchData()
     }, [])
@@ -43,12 +57,15 @@ export default function DocPage(props: Props) {
                 if (!editMode && data) {
                     return (
                     <div className="doc-content">
+                        <div className="doc-goback">
+                            <Link href={`/home/history`}><span><RiArrowGoBackFill /></span>Back</Link>
+                        </div>
                         <div className="doc-head">
                             <h3>{data.docName}</h3>
                             <div>
                                 <button id="delete" onClick={()=>handleDeleteOne()}>Delete</button>
                                 <button id="regenerate">Regenerate</button>
-                                <button id="download">Download</button>
+                                <button id="download" onClick={()=>handleDownload()}>Download</button>
                             </div>
                         </div>
                     </div>)
