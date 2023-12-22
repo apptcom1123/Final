@@ -21,7 +21,7 @@ export default function Upload() {
             const docName = file.name
             data.append("file", file, docID)
             console.log(data);            
-            axios.post(`/api/upload?docID=${docID}&docName=${docName}`, data).then(()=>{console.log("ok")}).catch(err => alert(err));
+            axios.post(`/api/upload?docID=${docID}&docName=${docName}`, data).then(()=>{alert("OK")}).catch(err => alert(err));
         }
     }
 
