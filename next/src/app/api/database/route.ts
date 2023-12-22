@@ -12,19 +12,27 @@ export async function POST() {
     return new NextResponse("ok")
 }
 
-export async function GET() {
+export async function GET(req:NextRequest) {
 
     const session = await getServerSession()
-    if (!session) { return new NextResponse("no session") }
-
+    if (!session || !session.user?.email) { return new NextResponse("no session") }
     const client = new MongoClient(env.MONGODB_URI)
     await client.connect()
     const db = client.db("wp_final")
     const collection = db.collection("data")
-    const data = await collection.find().toArray()
-    await client.close()
-
-    return NextResponse.json(data)
+    const action = req.nextUrl.searchParams.get("action")
+    if (action=="getAll") {
+        const data = await collection.find({"userEmail": `${session.user.email}`}).toArray()
+        await client.close()
+        return NextResponse.json(data)
+    }
+    else if (action=="getOne") {
+        const docID = req.nextUrl.searchParams.get("docID")
+        const data = await collection.findOne({"docID": `${docID}`})
+        await client.close()
+        return NextResponse.json(data)
+    }
+    return new NextResponse("unknown action")
 }
 
 export async function DELETE(req: NextRequest) {

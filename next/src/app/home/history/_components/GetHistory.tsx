@@ -19,7 +19,7 @@ export default function GetHistory() {
     }
 
     const fetchData = async () => {
-        fetch("/api/database").then(res=>res.json()).then((res)=>{              
+        fetch("/api/database?action=getAll").then(res=>res.json()).then((res)=>{              
             setHistory(res)
             setLoading(false)
         }).catch(err=>alert(err))
@@ -40,12 +40,12 @@ export default function GetHistory() {
                                 <>
                                     {index ? <hr className="divider" /> : ""}
                                     <div className="history-card" key={item._id}>
-                                        <div id="history-card-docName">
+                                        <Link id="history-card-docName" href={`/home/history/${item.docID}`}>
                                             <span>{item.docName}</span>
-                                        </div>
+                                        </Link>
                                         <div id="history-card-operation">
-                                            <button id="download"><FaFileDownload /></button> 
                                             <button id="delete" onClick={()=>{handleDeleteOne(item._id, item.docID)}}><FaRegTrashCan /></button>
+                                            <button id="download"><FaFileDownload /></button> 
                                         </div>
                                     </div>
                                 </>

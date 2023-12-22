@@ -1,0 +1,63 @@
+.docpage {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.doc-content {
+    height: 100%;
+    width: 100%;
+}
+.doc-head {
+    display: flex;
+    align-items: center;
+    padding: 1rem 2.5rem;
+    h3 {
+        flex-grow: 1;
+    }    
+}
+
+.doc-head > div {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    height: 100%;
+    gap: 0.5rem;
+    
+
+    button {
+        all: unset;
+        cursor: pointer;
+        border-radius: 0.5rem;
+        height: 1.5rem;
+        display: flex;
+        padding: 0 0.5rem;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.1s ease;
+    }
+
+    #delete {
+        border: 0.1rem solid var(--indianRed-color);
+        color: var(--indianRed-color);}
+    #delete:hover {
+        background-color: var(--indianRed-color);
+        color: white;}
+
+    #regenerate {
+        border: 0.1rem solid var(--green-color);
+        color: var(--green-color);}
+    #regenerate:hover {
+        background-color: var(--green-color);
+        color: white;}
+
+    #download {
+        border: 0.1rem solid var(--gunmetal-color);
+        color: var(--gunmetal-color);}
+    #download:hover {
+        background-color: var(--gunmetal-color);
+        color: white;}
+}
