@@ -11,7 +11,7 @@ export default async function Layout({children}:{children: React.ReactNode}) {
     return (
         <main>
             <NavBar />
-            <div>
+            <div className="main">
                 {children}
             </div>
         </main>

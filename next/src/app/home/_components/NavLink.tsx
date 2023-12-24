@@ -4,7 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 
-export default function NavLink({href, children}: {href: string, children: React.ReactNode}) {
+export default function NavLink({href, children, onClick}: {href: string, children: React.ReactNode, onClick: ()=>void}) {
 
     const path = usePathname()
     console.log(path);
@@ -17,6 +17,6 @@ export default function NavLink({href, children}: {href: string, children: React
     }
 
     return (
-        <Link href={href} className={active()}>{children}</Link>
+        <Link href={href} className={active()} onClick={onClick}>{children}</Link>
     )
 }

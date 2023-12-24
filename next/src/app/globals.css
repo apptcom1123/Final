@@ -6,6 +6,7 @@
   --indianRed-color: #B76D68;
   --green-color: #5F8670;
   --textwhite-color: #fff;
+  --background-g: linear-gradient(45deg, var(--onyx-color) 0%, var(--indianRed-color));
 }
 
 * {

@@ -1,17 +1,22 @@
+
+
 nav {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
     padding-right: 1rem;
+    span.menu {
+        display: none;
+    }
 }
 
-.navlogo {
-    padding-left: 1rem;
+.navlogo h1 {
+    padding-left: 1rem;  
 }
 
 .navlogo h1 span *{
-    margin: 0 1rem 0 1rem;
+    margin: 0 0 0 1rem;
     transform: translateY(10%);
 }
 
@@ -108,4 +113,87 @@ nav {
 
 .signOut button span {
     font-size: 1.25rem;
+}
+
+div.nav-head {
+    display: none;
+}
+
+div.black {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    div.nav-head {
+        display: block;
+        margin: 0.25rem 0;
+        span.menu {
+            position: absolute;
+            font-size: 2.5rem;
+            left: 1rem;
+            cursor: pointer;
+        }
+        div.navlogo {
+            h1 {
+                margin: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+    nav {
+        div.navlist {
+            a {
+                font-size: 1.5rem;
+            }
+        }
+    }
+    nav.open {
+        transform: translateX(0);
+        z-index: 10;
+    }
+    div.black.open {
+        display: block;
+        position: absolute;
+        z-index: 5;
+        background-color: #00000052;
+        height: 100vh;
+        width: 100vw;
+        animation:fadeIn 0.25s forwards;
+        padding-left: 12.5rem;
+        div.touchtoclose {
+            height: 100%;
+            width: 100%;
+            color: transparent;
+        }
+    }
+    div.black.close {
+        display: block;
+        position: absolute;
+        z-index: 5;
+        background-color: #00000052;
+        height: 100vh;
+        width: 100vw;
+        color: transparent;
+        animation:fadeOut 0.25s forwards;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
 }

@@ -4,7 +4,7 @@ main {
     width: 100%;
     top: 0;
     left: 0;
-    background: linear-gradient(45deg, var(--onyx-color) 0%, var(--indianRed-color)); 
+    background: var(--background-g); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,15 +14,42 @@ main {
 }
 
 nav {
-    width: 12.5%;
-    height:100%;    
+    width: 12.5rem;
+    height:100%;   
+    transition: all 0.25s ease; 
 }
 
-main > div {
+main > div.main {
     height: 100%;
     flex-grow: 1;
     background-color: white;
     color: black;
     border-radius: 1rem;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 20px;
+    transition: all 0.1s ease; 
+}
+
+@media screen and (max-width: 768px) {
+    main {
+        padding: 0.5rem;
+        flex-direction: column;
+        div.main {
+            width: 100%;
+            height: auto;
+        }
+    }
+    nav {
+        position: absolute;
+        height: 100%;
+        top: 0rem;
+        left: 0;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        background: var(--background-g);
+        transform: translateX(-150%);
+        padding-left: 0.5rem;
+        div.navlogo {
+            display: none;
+        }
+    }
 }
