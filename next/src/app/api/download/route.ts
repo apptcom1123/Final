@@ -14,7 +14,7 @@ export async function GET(req:NextRequest) {
     return new NextResponse(response.body, {
         headers: {
             ...response.headers,
-            "content-disposition": `attachment; filename="${docName}"`
+            "content-disposition": `attachment; filename="cover_${docName}"`
         }
     })
 }

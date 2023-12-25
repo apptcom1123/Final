@@ -32,7 +32,7 @@ export default function GetHistory() {
             const url = window.URL.createObjectURL(blob);
             const fileLink = document.createElement("a");
             fileLink.href = url;
-            fileLink.download = docName;
+            fileLink.download = `cover_${docName}`;
             document.body.appendChild(fileLink); 
             fileLink.click();
             fileLink.remove();

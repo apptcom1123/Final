@@ -1,4 +1,6 @@
 import { env } from "@/lib/env";
+import axios from "axios";
+import { log } from "console";
 import { MongoClient, ObjectId } from "mongodb";
 import { getServerSession } from "next-auth";
 import type { NextRequest } from "next/server";
@@ -58,8 +60,13 @@ export async function DELETE(req: NextRequest) {
             docID,
         }).then(async ()=>{
             await client.close()
-            return new NextResponse("OK")
+            
         })
+        const form = new FormData()
+        form.append("docID", docID)
+        axios.delete(`${env.FLASK_URL}/delete/${docID}`).then(()=>{}).catch(err => log(err))
+
+        return new NextResponse("OK")
     }
     return new NextResponse("unknown action")
 }
