@@ -20,12 +20,7 @@ body {
   left: 0;
 }
 
-.loader {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid var(--indianRed-color); /* Blue */
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
+.spinning-icon {
   animation: spin 2s linear infinite;
 }
 

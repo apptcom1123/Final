@@ -66,22 +66,38 @@
 
     #delete {
         border: 0.1rem solid var(--indianRed-color);
-        color: var(--indianRed-color);}
+        color: var(--indianRed-color);
+        width: 2.75rem;
+    }
     #delete:hover {
         background-color: var(--indianRed-color);
         color: white;}
 
     #regenerate {
         border: 0.1rem solid var(--green-color);
-        color: var(--green-color);}
+        color: var(--green-color);
+        width: 5.25rem;
+    };
+        
     #regenerate:hover {
         background-color: var(--green-color);
         color: white;}
 
     #download {
         border: 0.1rem solid var(--gunmetal-color);
-        color: var(--gunmetal-color);}
+        color: var(--gunmetal-color);
+        width: 4.75rem;
+    }
     #download:hover {
         background-color: var(--gunmetal-color);
         color: white;}
+}
+
+.slider {
+    width: 20rem;
+    overflow: visible;
+    color: black;
+    height: 5rem;
+    display: flex;
+    align-items: end;
 }

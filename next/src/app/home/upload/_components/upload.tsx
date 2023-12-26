@@ -2,22 +2,20 @@
 
 import axios from "axios"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { type ReactElement, useState } from "react"
+import { MuiFileInput } from 'mui-file-input'
 import {v4} from "uuid"
+import { FaSpinner } from "react-icons/fa6"
 
 export default function Upload() {
 
     const [file, setFile] = useState<File | null>(null)
+    const [uploadText, setUploadText] = useState<string | ReactElement>("Submit")
     const router = useRouter()
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setFile(e.target.files[0])
-        }
-    }
 
     const handleSubmit = async () => {
         if (file) {
+            setUploadText(<FaSpinner className="spinning-icon" />)
             const docID = v4()
             const data = new FormData()
             const docName = file.name
@@ -29,8 +27,13 @@ export default function Upload() {
 
     return (
         <div>
-            <input type="file" accept=".wav" onChange={handleChange} />
-            <button onClick={handleSubmit}>Submit</button>
-        </div>
+            <h1>Upload file</h1>
+            <MuiFileInput className="file-input" placeholder="Upload a .wav file" value={file} onChange={(e)=>setFile(e)} />
+            {(()=>{
+                if (file) {
+                    return <button className="submit" onClick={handleSubmit}>{uploadText}</button>
+                }
+            })()}
+        </div>  
     )
 }

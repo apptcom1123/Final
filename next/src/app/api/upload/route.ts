@@ -32,7 +32,8 @@ export async function POST(req: NextRequest, _res:NextResponse) {
     const data:InsertData = {
         "userEmail": session.user.email,
         docID,
-        docName
+        docName,
+        "done": false
     }
     await collection.insertOne(data)
 
