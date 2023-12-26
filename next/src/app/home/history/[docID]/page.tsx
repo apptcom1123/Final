@@ -10,6 +10,7 @@ import Link from "next/link"
 import Loading from "@/app/_components/Loading"
 import { Slider, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from "@mui/material"
 import Button from "@mui/material/Button"
+import Checkbox from "@mui/material/Checkbox"
 
 type Props = {
     params: {
@@ -20,14 +21,14 @@ type Props = {
 export default function DocPage(props: Props) {
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState<Data>()
-    const [editMode, setEditMode] = useState(false)
     const [tone, setTone] = useState(0);
+    const [f0state, setF0] = useState(false)
     const [regenerate, setRegenerate] = useState<string | ReactElement>("Regenerate")
     const [download, setDownload] = useState<string | ReactElement>("Download")
     const [deleteText, setDeleteText] = useState<string | ReactElement>("Delete")
     const [openRegPopup, setOpenRegPopup] = useState(false);
     const [openDownloadPopup, setOpenDownloadPopup] = useState(false)
-    const checkf0 = useRef<HTMLInputElement>(null)
+    const [showDownload, setShowDownload] = useState("flex")
     const router = useRouter()
     const docID = useRef(props.params.docID)
     const _id = data?._id ?? ""
@@ -49,10 +50,11 @@ export default function DocPage(props: Props) {
             setLoading(false)
             if (res["config"]) {
                 setTone(res.config.tone)
-                if (res.config.f0) {checkf0.current?.click()}
+                if (res.config.f0) {setF0(true)}
             }
             if (!res["config"]) {
                 setRegenerate("Generate")
+                setShowDownload("none")
             }
         }).catch(err=>alert(err))
     }
@@ -81,13 +83,13 @@ export default function DocPage(props: Props) {
     }
 
     const handleRegenerate = async () => {
-        if (!checkf0.current) {return }
         let f0 = 0
-        if (!checkf0.current.checked) { f0 = 0} else { f0 = 1}
+        if (!f0state) { f0 = 0} else { f0 = 1}
         setRegenerate(<FaSpinner className="spinning-icon" />)
         axios.post(`/api/predict?docID=${docID.current}&tone=${tone}&f0=${f0}`).then(()=>{
             setOpenRegPopup(true)
             setRegenerate("Regenerate")
+            setShowDownload("flex")
         }).catch(err=>alert(err))   
     }
 
@@ -99,11 +101,11 @@ export default function DocPage(props: Props) {
         <div className="docpage">
             <Dialog open={openRegPopup}>
                 <DialogTitle>
-                    Regenerating
+                    Generating
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Regenerating process usually takes 30s to a couple minutes based on the file size.
+                        Generating process usually takes 30s to a couple minutes based on the file size.
                         Please wait for a moment.
                     </DialogContentText>
                 </DialogContent>
@@ -125,7 +127,7 @@ export default function DocPage(props: Props) {
                 </DialogActions>
             </Dialog>
             {loading ? <Loading /> : (()=>{
-            if (!editMode && data) {
+            if (data) {
             return (
             <div className="doc-content">
                 <div className="doc-goback">
@@ -136,20 +138,22 @@ export default function DocPage(props: Props) {
                     <div>
                         <button id="delete" onClick={()=>handleDeleteOne()}>{deleteText}</button>
                         <button id="regenerate" onClick={()=>handleRegenerate()}>{regenerate}</button>
-                        <button id="download" onClick={()=>handleDownload()}>{download}</button>
+                        <button id="download" style={{display: showDownload}} onClick={()=>handleDownload()}>{download}</button>
                     </div>
                 </div>
-                <div>
-                    <div>
-                        <p>Tone</p>
+                <div className="doc-config">
+                    <div id="tone">
+                        <h3>Tone {`(-12~12)`}</h3>
                         <div className="slider">
                             <Slider min={-12} max={12} step={1} valueLabelDisplay="on" value={tone} onChange={(_e, value)=>{setTone(()=>{
                                 if (typeof value !== "number") return 0
                                 return value
                             })}} />
                         </div>
-                        <p>f0</p>
-                        <input type="checkbox" ref={checkf0} />
+                    </div>
+                    <div id="f0">
+                        <h3>f0</h3>
+                        <Checkbox checked={f0state} onChange={()=>{setF0((prev)=>{return !prev})}} />
                     </div>
                 </div>
             </div>)

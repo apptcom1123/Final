@@ -54,7 +54,7 @@ export async function DELETE(req: NextRequest) {
         const docID = req.nextUrl.searchParams.get("docID")
         const _id = req.nextUrl.searchParams.get("_id")
         if (!docID || !_id) { return new NextResponse("no docID or _id") }
-        collection.deleteOne({
+        await collection.deleteOne({
             "_id": new ObjectId(_id),
             userEmail,
             docID,
@@ -68,5 +68,16 @@ export async function DELETE(req: NextRequest) {
 
         return new NextResponse("OK")
     }
+
+    if (action === "deleteAll") {
+        const userEmail = session.user.email
+        const data = await collection.find({"userEmail": userEmail}).toArray()
+        await collection.deleteMany({"userEmail": userEmail})
+        data.map(async(d)=>{
+            axios.delete(`${env.FLASK_URL}/delete/${d.docID}`).then(()=>{}).catch(err => log(err))
+        })
+        return new NextResponse("OK")
+    }
+
     return new NextResponse("unknown action")
 }
