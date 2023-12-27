@@ -192,8 +192,12 @@ div.black {
     0% {
         opacity: 1;
     }
-    100% {
+    99% {
         opacity: 0;
+        
+    }
+    100% {
         display: none;
+        z-index: -10;
     }
 }
