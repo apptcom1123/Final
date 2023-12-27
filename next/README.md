@@ -9,4 +9,7 @@ NEXTAUTH_SECRET="random_secret"
 NEXT_PUBLIC_AUTH_URL="http://localhost:3000"
 FLASK_URL="http://localhost:5000"
 MONGODB_URI="<mongodb uri>"
+
+NEXT_PUBLIC_PUSHER_KEY=""
+NEXT_PUBLIC_PUSHER_CLUSTER=""
 ```

@@ -11,6 +11,8 @@ import Loading from "@/app/_components/Loading"
 import { Slider, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from "@mui/material"
 import Button from "@mui/material/Button"
 import Checkbox from "@mui/material/Checkbox"
+import { pusherClient } from "@/lib/pusher"
+import { AiOutlineStop } from "react-icons/ai";
 
 type Props = {
     params: {
@@ -18,20 +20,26 @@ type Props = {
     }
 }
 
+
+
 export default function DocPage(props: Props) {
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState<Data>()
     const [tone, setTone] = useState(0);
     const [f0state, setF0] = useState(false)
+    const [rng, setrng] = useState()
     const [regenerate, setRegenerate] = useState<string | ReactElement>("Regenerate")
     const [download, setDownload] = useState<string | ReactElement>("Download")
     const [deleteText, setDeleteText] = useState<string | ReactElement>("Delete")
+    const [allowDownload, setAllowDownload] = useState(true);
     const [openRegPopup, setOpenRegPopup] = useState(false);
     const [openDownloadPopup, setOpenDownloadPopup] = useState(false)
     const [showDownload, setShowDownload] = useState("flex")
     const router = useRouter()
     const docID = useRef(props.params.docID)
     const _id = data?._id ?? ""
+
+    
 
     const handleDeleteOne = async () => {
         
@@ -55,6 +63,9 @@ export default function DocPage(props: Props) {
             if (!res["config"]) {
                 setRegenerate("Generate")
                 setShowDownload("none")
+            }
+            if (!res["done"]) {
+                setAllowDownload(false)
             }
         }).catch(err=>alert(err))
     }
@@ -86,6 +97,7 @@ export default function DocPage(props: Props) {
         let f0 = 0
         if (!f0state) { f0 = 0} else { f0 = 1}
         setRegenerate(<FaSpinner className="spinning-icon" />)
+        setAllowDownload(false)
         axios.post(`/api/predict?docID=${docID.current}&tone=${tone}&f0=${f0}`).then(()=>{
             setOpenRegPopup(true)
             setRegenerate("Regenerate")
@@ -95,7 +107,21 @@ export default function DocPage(props: Props) {
 
     useEffect(()=>{
         fetchData()
-    }, [])
+    },[])
+
+    useEffect(()=>{
+        
+        const channel = pusherClient.subscribe(`${props.params.docID}`)
+        channel.bind("update", ()=>{
+            alert("Generation completes. Download is now available")
+            setAllowDownload(true)
+        })
+        return ()=>{
+            pusherClient.unsubscribe(`${props.params.docID}`)
+        }
+    }, [props.params.docID])
+
+    
 
     return (
         <div className="docpage">
@@ -138,7 +164,7 @@ export default function DocPage(props: Props) {
                     <div>
                         <button id="delete" onClick={()=>handleDeleteOne()}>{deleteText}</button>
                         <button id="regenerate" onClick={()=>handleRegenerate()}>{regenerate}</button>
-                        <button id="download" style={{display: showDownload}} onClick={()=>handleDownload()}>{download}</button>
+                        <button id="download" style={{display: showDownload}} onClick={()=>handleDownload()}>{allowDownload?download:<AiOutlineStop/>}</button>
                     </div>
                 </div>
                 <div className="doc-config">

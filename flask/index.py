@@ -11,9 +11,17 @@ import soundfile
 import librosa
 from dotenv import load_dotenv
 from pymongo import MongoClient
+from pusher import Pusher
 
 load_dotenv()
 
+pusher = Pusher(
+    app_id=os.getenv("PUSHER_ID"),
+    key=os.getenv("PUSHER_KEY"),
+    secret=os.getenv("PUSHER_SECRET"),
+    cluster=os.getenv("PUSHER_CLUSTER"),
+    ssl=True
+)
 MONGODB_URI = os.getenv("MONGODB_URI")
 try:
     mongo_client = MongoClient(MONGODB_URI)
@@ -55,7 +63,7 @@ def initialize_model():
         print("模型初始化失敗:", e)
         #if debug: traceback.print_exc()
 
-# 在應用啟動時初始化模型
+# 在Flask啟動時初始化模型
 app.before_request_funcs = [(None,initialize_model())]
 
 # 音頻處理功能
@@ -64,10 +72,10 @@ def process_audio(docId, tone, f0):
     if not os.path.exists(file_path):
         return None, "File not found"
 
-    # 读取音频文件
+    # Read audio file
     audio_data, audio_sr = soundfile.read(file_path)
 
-    # 调整音频格式
+    # adjust format
     if audio_data.dtype.kind in ['i', 'u']:
         # 如果音频数据是整数类型，进行规范化
         audio_data = (audio_data / np.iinfo(audio_data.dtype).max).astype(np.float32)
@@ -163,6 +171,7 @@ def react_predict():
             
             result_path, error = process_audio(docId, tone, f0)
             collection.update_one({"docID": str(docId)}, {"$set": {"done":True}})
+            pusher.trigger(f"{docId}", 'update', "generation_complete")
             if error:
                 flash(error)
                 return redirect(url_for('index'))
@@ -306,6 +315,11 @@ def reactUpload():
 # def download(params):
 #     if request.method == "GET":
 #         return send_file(f"./result/result_{params}.wav")
+
+@app.route("/pusher", methods=["GET"])
+def pu():
+    pusher.trigger("test", "test_event", {"content": "test pusher"})
+    return "pusher test"
 
 if __name__ == '__main__':
     app.run()
