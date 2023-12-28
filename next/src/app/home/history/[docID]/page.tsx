@@ -65,6 +65,7 @@ export default function DocPage(props: Props) {
                 setShowDownload("none")
             }
             if (!res["done"]) {
+                setRegenerate(<FaSpinner className="spinning-icon" />)
                 setAllowDownload(false)
             }
         }).catch(err=>alert(err))
@@ -100,7 +101,6 @@ export default function DocPage(props: Props) {
         setAllowDownload(false)
         axios.post(`/api/predict?docID=${docID.current}&tone=${tone}&f0=${f0}`).then(()=>{
             setOpenRegPopup(true)
-            setRegenerate("Regenerate")
             setShowDownload("flex")
         }).catch(err=>alert(err))   
     }
@@ -115,6 +115,7 @@ export default function DocPage(props: Props) {
         channel.bind("update", ()=>{
             alert("Generation completes. Download is now available")
             setAllowDownload(true)
+            setRegenerate("Regenerate")
         })
         return ()=>{
             pusherClient.unsubscribe(`${props.params.docID}`)

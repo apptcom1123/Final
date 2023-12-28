@@ -7,6 +7,8 @@
     align-items: center;
     
     a {
+        color: var(--indianRed-color);
+        font-weight: bold;
         text-decoration: none;
     }
     h1, h3 {
