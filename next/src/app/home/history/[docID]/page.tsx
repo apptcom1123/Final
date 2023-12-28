@@ -171,7 +171,7 @@ export default function DocPage(props: Props) {
                     <div id="tone">
                         <h3>Tone {`(-12~12)`}</h3>
                         <div className="slider">
-                            <Slider min={-12} max={12} step={1} valueLabelDisplay="on" value={tone} onChange={(_e, value)=>{setTone(()=>{
+                            <Slider color="warning" min={-12} max={12} step={1} valueLabelDisplay="on" value={tone} onChange={(_e, value)=>{setTone(()=>{
                                 if (typeof value !== "number") return 0
                                 return value
                             })}} />
@@ -179,7 +179,7 @@ export default function DocPage(props: Props) {
                     </div>
                     <div id="f0">
                         <h3>f0</h3>
-                        <Checkbox checked={f0state} onChange={()=>{setF0((prev)=>{return !prev})}} />
+                        <Checkbox color="warning" id="checkbox" checked={f0state} onChange={()=>{setF0((prev)=>{return !prev})}} />
                     </div>
                 </div>
             </div>)

@@ -5,7 +5,8 @@ nav {
     flex-direction: column;
     width: 100%;
     height: 100%;
-    padding-right: 1rem;
+    padding: 1rem;
+    border: var(--border-outline);
     span.menu {
         display: none;
     }
@@ -126,21 +127,28 @@ div.black {
 @media screen and (max-width: 768px) {
     div.nav-head {
         display: block;
-        margin: 0.25rem 0;
+        background: var(--background-g);
+        width: 100%;
+        padding: 0.5rem;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
         span.menu {
             position: absolute;
             font-size: 2.5rem;
+            top: 0.5rem;
             left: 1rem;
             cursor: pointer;
         }
         div.navlogo {
             h1 {
                 margin: 0;
-                margin-bottom: 0.5rem;
             }
         }
     }
     nav {
+        border: none;
         div.navlist {
             a {
                 font-size: 1.5rem;
@@ -150,6 +158,7 @@ div.black {
     nav.open {
         transform: translateX(0);
         z-index: 10;
+        border-radius: 0 1rem 1rem 0;
     }
     div.black.open {
         display: block;
@@ -158,6 +167,7 @@ div.black {
         background-color: #00000052;
         height: 100vh;
         width: 100vw;
+        
         animation:fadeIn 0.25s forwards;
         padding-left: 12.5rem;
         div.touchtoclose {

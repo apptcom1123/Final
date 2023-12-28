@@ -19,6 +19,20 @@ div.clean-all-data {
     align-items: center;
 }
 
+button.change-theme {
+    all:unset;
+    border: 0.1rem solid var(--text-color);
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+button.change-theme:hover {
+    background-color: var(--text-color);
+    color: var(--main-background-color);
+}
+
 div.clean-all-data-field {
     background-color: var(--raisinBlack-color);
     padding: 1rem 1.5rem 1.5rem 1.5rem;

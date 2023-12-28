@@ -29,7 +29,7 @@ hr.divider {
 
 #history-card-docName {
     flex-grow: 1;
-    color: black;
+    color: var(--text-color);
     text-decoration: none;
 }
 
@@ -65,13 +65,14 @@ div#history-card-operation > button#delete:hover {
 }
 
 div#history-card-operation > button#download {
-    border: 0.1rem solid var(--raisinBlack-color);
-    color: var(--raisinBlack-color);
+    border: 0.1rem solid var(--text-color);
+    color: var(--text-color);
 }
 
 div#history-card-operation > button#download:hover {
     color: white;
     background-color: var(--raisinBlack-color);
+    border-color: var(--raisinBlack-color);
 }
 
 div#no-history   {

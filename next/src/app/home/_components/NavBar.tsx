@@ -5,7 +5,8 @@ import { RxExit } from "react-icons/rx";
 import { IoMenu, IoClose } from "react-icons/io5";
 import "./NavBar.css"
 import NavLink from "./NavLink";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import setTheme from "@/lib/changeTheme";
 
 export function NavBar() {
 
@@ -15,6 +16,16 @@ export function NavBar() {
     const closeNav = () => { setOpen(false) }
     const openNav = () => { setOpen(true) }
     const isOpen = () => { return  (open ? "open" : "close") }
+
+    useEffect(()=>{
+        const theme = localStorage.getItem("theme")
+        if (theme === "dark") {
+            setTheme("dark")
+        } else {
+            setTheme("light")
+        }
+
+    }, [])
 
     return (
         <>
@@ -27,7 +38,7 @@ export function NavBar() {
                     <h1>AI Cover<span><FaRobot /></span></h1>
                 </div>
             </div>
-            <nav className={`${isOpen()}`}>
+            <nav className={`${isOpen()}`} id="nav">
                 <div className="navlogo">
                     <h1>AI Cover<span><FaRobot /></span></h1>
                 </div>
